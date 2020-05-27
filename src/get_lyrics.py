@@ -34,4 +34,6 @@ for lyrics_url in list_links_lyrics:
 
 #salvando dados
 data_frame_lyrics = pd.DataFrame.from_dict(lyrics, orient='index',columns=['lyrics'])
+data_frame_lyrics.reset_index(inplace = True)
+data_frame_lyrics.rename(columns = {'index':'title'}, inplace = True)
 data_frame_lyrics.to_csv(DATA_OUTPUT_PATH+DATA_OUTPUT_SUB_PATH+DATA_OUTPUT_NAME)
