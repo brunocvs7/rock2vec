@@ -28,6 +28,7 @@ list_links_lyrics = ll.get_links()
 
 #consultando cada link e  recuperando as letras
 lyrics = {}
+
 for lyrics_url in list_links_lyrics:
     lt = LyricsText(lyrics_url = URL_SITE+lyrics_url, title_class = TITLE_CLASS, lyrics_class = LYRICS_CLASS)
     lyrics[lt.get_title()] = lt.get_lyrics_text()
