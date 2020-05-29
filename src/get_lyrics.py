@@ -28,6 +28,7 @@ list_links_lyrics = ll.get_links()
 #loop que varre os links na lista list_links_lyrics e  então carrega a página e captura o campo de texto, que é a letra da música
 # No final teremos um dicionário com as chaves sendo os títulos das músicas e os valores sendro strings contendo a letra das músicas
 lyrics = {}
+
 for lyrics_url in list_links_lyrics:
     lt = LyricsText(lyrics_url = URL_SITE+lyrics_url, title_class = TITLE_CLASS, lyrics_class = LYRICS_CLASS)
     lyrics[lt.get_title()] = lt.get_lyrics_text()
