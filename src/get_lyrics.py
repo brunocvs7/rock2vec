@@ -9,10 +9,10 @@ from bs4 import BeautifulSoup
 from make_data.rock_lyrics import LyricsText, LyricsLink
 
 """
-Inicialmente iremos parsear a lista de links com as 20 
+Inicialmente iremos parsear a lista de links (URL_PRINCIPAL) com as 20 
 maiores bandas de rock segundo o próprio site.
-A partir daí, iremos iterar através dessa lista e aí sim, traremos todas 
-as letrasde música de todas as 20 bandas de rock
+A partir daí, iremos iterar através dessa lista e, aí sim, traremos todas 
+as letras de música de todas as 20 bandas de rock.
 """
 #constantes
 #home page
@@ -21,7 +21,7 @@ URL_HOME = 'https://www.letras.mus.br'
 URL_PRINCIPAL = 'https://www.letras.mus.br/blog/bandas-de-rock-nacional/'
 #link do grupo cujas musicas serão trazidas
 URL_GROUP = None
-#classe do html onde o os links de todas as musicas estão
+#classe do html (tag) onde o os links de todas as musicas estão
 LYRICS_NAME = 'song-name'
 #classe (tag) onde achamos o título da música
 TITLE_CLASS = 'cnt-head_title'
@@ -36,7 +36,7 @@ OUTPUT_PATH = 'src/data'
 OUTPUT_SUB_PATH = '/raw'
 DATA_OUTPUT_NAME = '/lyrics.csv'
 
-# Recuperando os links das páginas da bandas a partir a URL_PRINCIAL
+##### Recuperando os links das páginas da bandas a partir a URL_PRINCIAL
 list_groups_link = []
 #abrindo a página
 html_page = urlopen(URL_PRINCIPAL)
@@ -51,26 +51,28 @@ for link in div:
         list_groups_link.append(link)
 
 #alguns links não são exatamente das páginas das bandas
-#então iremos utilizar um try:except e admitir que todas rejeitas
-#são links que não correspondem a essas páginas principais
-#no final iremos verificar se temos 20 links no total
+#então iremos utilizar um try:except e admitir que todas rejeitadas
+#são links que não correspondem a essas páginas principais.
 #inicialmente iremos salvar um dataframe vazio como csv e então ir 
-#apendando
+#apendando diretamente no arquivo.
 
+#Criação do csv file
 df_rock_lyrics = pd.DataFrame(data = None, 
                               columns = ['group', 'lyrics_title',
                                          'lyrics_text'])
-
+#Salvando o csv 
 df_rock_lyrics.to_csv(OUTPUT_PATH+OUTPUT_SUB_PATH+DATA_OUTPUT_NAME, 
                       index = False)
 
+##### Varrendo a lista de links 
+#for para ir de link em link buscando a lista de músicas de cada banda
 for URL_GROUP in list_groups_link:
+    #Bloco try para verificar se link da lista da banda é válido
     try:
         html_page = urlopen(URL_GROUP)
         bs = BeautifulSoup(html_page, 'lxml')
         group_name = bs.find('div', {'class':GROUP_NAME_CLASS}).h1.text
         print(group_name)
-        #time.sleep(1)
         #recuperando os links de onde estão as letras das músicas
         ll = LyricsLink(website = URL_GROUP, lyrics_class = LYRICS_NAME)
         # retornando lista de links
@@ -86,6 +88,7 @@ for URL_GROUP in list_groups_link:
         lyrics = {}
         for lyrics_url in list_links_lyrics:
             print(lyrics_url)
+            #Bloco try para verificar se temos um link de música valido
             try:
                 lt = LyricsText(lyrics_url =  URL_HOME+lyrics_url, 
                             title_class = TITLE_CLASS, 
@@ -94,7 +97,7 @@ for URL_GROUP in list_groups_link:
             except:
                 print('ERROR: Música não pode ser acessada')
                 continue
-            #salvando dados
+        #salvando dados
         df_lyrics = pd.DataFrame.from_dict(lyrics, orient='index',\
                                              columns=['lyrics_text'])
         df_lyrics.reset_index(inplace = True) 
@@ -104,7 +107,7 @@ for URL_GROUP in list_groups_link:
         df_lyrics = df_lyrics.loc[:, ['group',
                                       'lyrics_title', 
                                       'lyrics_text']]
-        
+        #apendando
         df_lyrics.to_csv(OUTPUT_PATH+OUTPUT_SUB_PATH+DATA_OUTPUT_NAME, 
                          index = False, mode='a', header=False)
     except:
