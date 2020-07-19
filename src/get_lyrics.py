@@ -6,7 +6,7 @@ from urllib.request import urlopen
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from make_data.rock_lyrics import LyricsText, LyricsLink
+from lyrics_analysis.get_data import LyricsText, LyricsLink
 
 """
 Inicialmente iremos parsear a lista de links (URL_PRINCIPAL) com as 20 
