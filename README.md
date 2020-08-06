@@ -6,7 +6,7 @@
 
 * Pré-processamento
 * Análise Exploratória
-* Análise de Tópicos (LDA)
+* Análise de Tópicos (LDA + SVD)
 * Análise de Sentimento
 
 ## Referências:
