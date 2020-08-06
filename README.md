@@ -7,13 +7,7 @@
 * Pré-processamento
 * Análise Exploratória
 * Análise de Tópicos (LDA)
-* Análise de similaridade (Doc2Vec)
-
-## Autores:
-
-* [**Bruno Vieira**](https://www.linkedin.com/in/bruno-vieira-ds/) 
-* [**Grazielly Melo**](https://www.linkedin.com/in/grazielly-de-melo-04a9a8178/)
-* [**Paulo Cotta**](https://www.linkedin.com/in/paulo-vitor-pereira-cotta/)
+* Análise de Sentimento
 
 ## Referências:
 
